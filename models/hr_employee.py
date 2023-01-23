@@ -53,11 +53,12 @@ class HrEmployee(models.Model):
                 workday = self.env['jt.hr.workday'].create({
                     'employee_id': employee.id,
                     'workday_date': date,
+                    'commute_type' : employee.preferred_commute_type,
                 })
                 if create_reminder and employee.user_id:
                     workday.activity_schedule(
                         activity_type_id= self._default_activity_type().id,
-                        note= "Please review and update workday information, or 'Mark Done' if ",
+                        note= "Please review and update workday information.",
                         summary= "Workday information",
                         date_deadline=date,
                         user_id= employee.user_id.id,

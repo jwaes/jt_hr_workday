@@ -29,6 +29,13 @@ class HrWorkday(models.Model):
                                   default=_default_employee, required=True, ondelete='cascade', index=True)
     workday_date = fields.Date('Date', required=True, tracking=True)
 
+    workday_date_weekday = fields.Char(compute='_compute_workday_date_weekday', string='Weekday')
+    
+    @api.depends('workday_date')
+    def _compute_workday_date_weekday(self):
+        for wd in self:
+            wd.workday_date_weekday = wd.workday_date.strftime('%A')
+
     _sql_constraints = [
         ('employee_workday_unique', 'UNIQUE (employee_id, workday_date)',
          'Workday already exists for this employee')

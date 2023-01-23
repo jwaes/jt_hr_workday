@@ -7,6 +7,7 @@
             <field name="arch" type="xml">
                 <tree string="Employee workday">
                     <field name="employee_id" />
+                    <field name="workday_date_weekday" />                    
                     <field name="workday_date" />
                     <field name="workday_type" />
                     <field name="commute_type" />
@@ -38,6 +39,7 @@
                         <group>
                             <field name="employee_id" />
                             <field name="workday_date" />
+                            <field name="workday_date_weekday" />
                             <field name="workday_type" />
                             <field name="commute_type" attrs="{'invisible': [('workday_type', '!=', 'office')]}" />
                         </group>
