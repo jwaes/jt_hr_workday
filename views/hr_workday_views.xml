@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <record id="workday_view_tree" model="ir.ui.view">
+            <field name="name">workday.view.tree</field>
+            <field name="model">jt.hr.workday</field>
+            <field name="arch" type="xml">
+                <tree string="Employee workday">
+                    <field name="employee_id" />
+                    <field name="workday_date" />
+                    <field name="workday_type" />
+                    <field name="commute_type" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="workday_view_search" model="ir.ui.view">
+            <field name="name">workday.view.search</field>
+            <field name="model">jt.hr.workday</field>
+            <field name="arch" type="xml">
+                <search string="Employee workday">
+                    <filter string="Date" name="filter_workday_date" date="workday_date" default_period="this_month"/>
+                    <field string="employeeeee" name="employee_id"/>
+                    <group expand="1" string="Group By">
+                        <filter string="Employee" name="group_employee_id" context="{'group_by': 'employee_id'}"/>
+                        <filter string="Date" name="group_workday_month" context="{'group_by': 'workday_date:month'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="workday_view_form" model="ir.ui.view">
+            <field name="name">workday.view.form</field>
+            <field name="model">jt.hr.workday</field>
+            <field name="arch" type="xml">
+                <form string="Employee workday">
+                    <sheet>
+                        <group>
+                            <field name="employee_id" />
+                            <field name="workday_date" />
+                            <field name="workday_type" />
+                            <field name="commute_type" attrs="{'invisible': [('workday_type', '!=', 'office')]}" />
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" />
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" />
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="workday_action" model="ir.actions.act_window">
+            <field name="name">Workday</field>
+            <field name="res_model">jt.hr.workday</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p>test</p>
+            </field>
+        </record>
+
+</odoo>

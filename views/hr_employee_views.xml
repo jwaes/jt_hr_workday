@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_employee_form" model="ir.ui.view">
+        <field name="name">hr.employee.workday.form.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='hr_settings']//group[1]" position="inside">
+                <group string="Workday" name="workday_group">
+                    <field name="preferred_commute_type"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_jt_hr_employee_generate_workdays_for_this_month" model="ir.actions.server">
+        <field name="name">Generate workdays for this month</field>
+        <field name="model_id" ref="hr.model_hr_employee"/>
+        <field name="binding_model_id" ref="hr.model_hr_employee"/>
+        <field name="state">code</field>
+        <field name="code">
+            if records:
+                records._generate_workdays_for_this_month()
+        </field>
+    </record>
+
+</odoo>

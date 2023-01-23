@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+jt_hr_workday.access_jt_hr_workday,access_jt_hr_workday,jt_hr_workday.model_jt_hr_workday,base.group_user,1,1,1,0

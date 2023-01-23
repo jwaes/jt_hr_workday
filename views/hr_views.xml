@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <menuitem
+            id="menu_hr_workdays"
+            name="Workdays"
+            action="workday_action"
+            parent="hr.menu_hr_root"
+            sequence="9" />
+
+
+</odoo>
