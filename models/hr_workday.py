@@ -19,9 +19,9 @@ class HrWorkday(models.Model):
 
     def _default_commute_type(self):
         if self.employee_id:
-            return self.employee_id.sudo().preferred_commute_type
+            return self.employee_id.employee_id.preferred_commute_type
         elif self.env.user.employee_id:
-            return self.env.user.employee_id.sudo().preferred_commute_type
+            return self.env.user.employee_id.preferred_commute_type
         else:
             return 'none'
 
