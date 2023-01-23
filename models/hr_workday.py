@@ -19,9 +19,9 @@ class HrWorkday(models.Model):
 
     def _default_commute_type(self):
         if self.employee_id:
-            return self.employee_id.preferred_commute_type
+            return self.employee_id.sudo().preferred_commute_type
         elif self.env.user.employee_id:
-            return self.env.user.employee_id.preferred_commute_type
+            return self.env.user.employee_id.sudo().preferred_commute_type
         else:
             return 'none'
 
@@ -34,7 +34,10 @@ class HrWorkday(models.Model):
     @api.depends('workday_date')
     def _compute_workday_date_weekday(self):
         for wd in self:
-            wd.workday_date_weekday = wd.workday_date.strftime('%A')
+            if wd.workday_date:
+                wd.workday_date_weekday = wd.workday_date.strftime('%A')
+            else :
+                wd.workday_date_weekday = ''
 
     _sql_constraints = [
         ('employee_workday_unique', 'UNIQUE (employee_id, workday_date)',
@@ -47,7 +50,7 @@ class HrWorkday(models.Model):
     def _compute_name(self):
         for workday in self:
             workday.name = '%s [%s]' % (
-                workday.employee_id.name, format_date(self.env, workday.workday_date))
+                workday.employee_id.sudo().name, format_date(self.env, workday.workday_date))
 
     workday_type = fields.Selection([
         ('leave', 'Leave'),
