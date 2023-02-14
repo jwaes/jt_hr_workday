@@ -20,6 +20,12 @@ def timezone_datetime(time):
 class HrEmployee(models.Model):
     _inherit = "hr.employee"
 
+    preferred_commute_type = fields.Selection([
+        ('none', 'None'),
+        ('car', 'Car'),
+        ('bike', 'Bike'),
+    ], string='Commute type', default='none', groups="hr.group_hr_user", help="Default commute type of this employee, can be overruled per workday.")  
+
     def _is_workingday(self, date):
         self.ensure_one()
         domain = [('company_id', 'in', self.env.company.ids +
@@ -95,18 +101,3 @@ class HrEmployee(models.Model):
                 else:
                     _logger.info("%s is not a working day", iter_date)
                 iter_date += delta
-
-
-    class HrEmployeeBase(models.AbstractModel):
-        _inherit = "hr.employee.base"
-
-        preferred_commute_type = fields.Selection([
-            ('none', 'None'),
-            ('car', 'Car'),
-            ('bike', 'Bike'),
-        ], string='Commute type', default='none', help="Default commute type of this employee, can be overruled per workday.")        
-            
-    class HrEmployeePublic(models.Model):
-        _inherit = "hr.employee.public"
-
-        preferred_commute_type = fields.Selection(readonly=True)
