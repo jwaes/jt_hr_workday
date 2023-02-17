@@ -74,7 +74,7 @@
             <field name="search_view_id" ref="workday_view_search"/>
             <field name="domain">[]</field>
             <field name="help" type="html">
-                <p>test</p>
+                <p>No workdays defined yet</p>
             </field>
         </record>
 

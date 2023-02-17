@@ -15,5 +15,6 @@ class HRLeave(models.Model):
             if leave.state == 'validate':
                 _logger.info("validated !")
                 for employee in leave.employee_ids:
-                    employee._remove_workdays(leave.date_from, leave.date_to)
+                    if not leave.request_unit_half and not leave.request_unit_hours:
+                        employee._remove_workdays(leave.date_from, leave.date_to)
         return res
