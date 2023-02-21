@@ -95,7 +95,7 @@
 
                             <div class="row mt32 mb32">
                                 <div class="col-auto">
-                                    <table class="table table-sm">
+                                    <table class="table table-sm o_main_table">
                                         <tbody>
                                             <tr t-foreach="employee['workday_type_sum']" t-as="rec">
                                                 <td>
