@@ -1,3 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 jt_hr_workday.access_jt_hr_workday,access_jt_hr_workday,jt_hr_workday.model_jt_hr_workday,base.group_user,1,1,1,0
 jt_hr_workday.access_jt_hr_workday_manager,access_jt_hr_workday_manager,jt_hr_workday.model_jt_hr_workday,hr_holidays.group_hr_holidays_manager,1,1,1,1
+jt_hr_workday.access_jt_hr_workday_summary_employee,access_jt_hr_workday_summary_employee,jt_hr_workday.model_jt_hr_workday_summary_employee,base.group_user,1,1,1,0

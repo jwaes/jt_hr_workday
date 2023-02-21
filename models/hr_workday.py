@@ -30,6 +30,8 @@ class HrWorkday(models.Model):
     workday_date = fields.Date('Date', required=True, tracking=True)
 
     workday_date_weekday = fields.Char(compute='_compute_workday_date_weekday', string='Weekday')
+
+    days = fields.Float('Day')
     
     @api.depends('workday_date')
     def _compute_workday_date_weekday(self):
@@ -58,11 +60,26 @@ class HrWorkday(models.Model):
         ('wfh', 'Work from home'),
     ], string='Type', default="office", tracking=True)
 
+    workday_type_name = fields.Char(compute='_compute_workday_type_name', string='workday_type_name')
+    
+    @api.depends('workday_type')
+    def _compute_workday_type_name(self):
+        for workday in self:
+            workday.workday_type_name = dict(workday._fields['workday_type'].selection).get(workday.workday_type)
+
     commute_type = fields.Selection([
         ('none', 'None'),
         ('car', 'Car'),
         ('bike', 'Bike'),
     ], string="Commute", default=_default_commute_type, tracking=True)
+
+    commute_type_name = fields.Char(compute='_compute_commute_type_name', string='communte_type_name')
+    
+    @api.depends('commute_type')
+    def _compute_commute_type_name(self):
+        for workday in self:
+            workday.commute_type_name = dict(workday._fields['commute_type'].selection).get(workday.commute_type)
+
 
     @api.onchange('workday_type')
     def _onchange_commute_type(self):

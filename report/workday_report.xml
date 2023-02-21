@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_report_workdaysummary" model="ir.actions.report">
+        <field name="name">Workday Summary</field>
+        <field name="model">jt.hr.workday.summary.employee</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">jt_hr_workday.report_workdaysummary</field>
+        <field name="report_file">jt_hr_workday.report_workdaysummary</field>
+        <field name="print_report_name">'Workday summary - %s' % object.name</field>
+    </record>
+
+    <!-- <record id="action_report_employee_workday" model="ir.actions.report">
+        <field name="name">Employee workday report!!</field>
+        <field name="model">hr.employee</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">jt_hr_workday.report_employee_workday</field>
+        <field name="report_file">jt_hr_workday.report_employee_workday</field>
+        <field name="print_report_name">'%s' % object.name</field>
+        <field name="binding_model_id" ref="model_hr_employee" />
+        <field name="binding_type">report</field>
+    </record> -->
+
+    <template id="report_workdaysummary">
+        <t t-set="info" t-value="get_header_info" />
+        <t t-foreach="get_data_from_report" t-as="obj">
+            <t t-foreach="obj['data']" t-as="employee">
+                <t t-call="web.html_container">
+                    <t t-call="web.external_layout">
+                        <t t-set="info" t-value="get_header_info" />
+
+                        <div class="page">
+                            <h3 class="mb32">
+                                <t t-esc="employee['name']" /> from <u>
+                                    <t t-esc="info['start_date']" />
+                                </u>
+                                to <u>
+                                    <t t-esc="info['end_date']" />
+                                </u>
+                            </h3>
+
+                            <table class="table table-sm o_main_table">
+                                <thead style="display: table-row-group">
+                                    <tr>
+                                        <th>Weekday</th>
+                                        <th>Date</th>
+                                        <th>Work</th>
+                                        <th>Type</th>
+                                        <th>Commute</th>
+                                        <th>Leave</th>
+                                        <th>Leave time</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="employee['days']" t-as="day">
+                                        <td>
+                                            <t t-esc="day['date'].strftime('%A')" />
+                                        </td>
+                                        <td class="font-weight-bold">
+                                            <t t-esc="day['date']" />
+                                        </td>
+                                        <td class="text-right">
+                                            <t t-if="day['hours'] > 0">
+                                                <t t-esc="day['hours']" /> hours </t>
+                                        </td>
+                                        <td>
+                                            <t t-esc="day['type']" />
+                                        </td>
+                                        <td>
+                                            <t t-esc="day['commute_type']"
+                                                t-if="day['commute_type'] != 'None'" />
+                                        </td>
+                                        <td>
+                                            <t t-if="day['leave']">
+                                                <span t-esc="day['leave_type']" />
+                                            </t>
+                                        </td>
+                                        <td class="text-right">
+                                            <t t-if="day['leave']">
+                                                <t t-if="day['leave_days'] > 1">
+                                                    1.0
+                                                </t>
+                                                <t t-else=''>
+                                                    <t t-esc="day['leave_days']" />
+                                                </t>
+                                                days
+                                            </t>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <h2>Summary</h2>
+
+                            <div class="row mt32 mb32">
+                                <div class="col-auto">
+                                    <table class="table table-sm">
+                                        <tbody>
+                                            <tr t-foreach="employee['workday_type_sum']" t-as="rec">
+                                                <td>
+                                                    <t t-esc="rec" />
+                                                </td>
+                                                <td><t t-esc="rec_value" /> days</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+                                <div class="col-auto">
+                                    <table class="table table-sm">
+                                        <tbody>
+                                            <tr t-foreach="employee['workday_commute_sum']"
+                                                t-as="rec">
+                                                <td>
+                                                    <t t-esc="rec" />
+                                                </td>
+                                                <td><t t-esc="rec_value" /> days</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="col-auto">
+                                    <table class="table table-sm">
+                                        <tbody>
+                                            <tr>
+                                                <td>Working days</td>
+                                                <td>
+                                                    <t t-esc="employee['workday_days_sum']" /> days
+                                                </td>
+                                            </tr>
+                                            <tr t-foreach="employee['workday_leave_sum']" t-as="rec">
+                                                <td>
+                                                    <t t-esc="rec" />
+                                                </td>
+                                                <td><t t-esc="rec_value" /> days</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>
