@@ -74,13 +74,13 @@ class HrEmployee(models.Model):
     def _create_workday(self, date, create_reminder=False):
             for employee in self:
                 details = employee._get_workingday_details(date)
-                day = details['day']
-                if day > 0.0:
+                days = details['days']
+                if days > 0.0:
                     workday = self.env['jt.hr.workday'].create({
                         'employee_id': employee.id,
                         'workday_date': date,
                         'commute_type' : employee.preferred_commute_type,
-                        'day': day,
+                        'days': days,
                     })
                     if create_reminder and employee.user_id:
                         workday.activity_schedule(
